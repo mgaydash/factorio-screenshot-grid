@@ -144,7 +144,7 @@ commands.add_command("screenshot_grid", nil, function(command)
               position = {i * x_size / tile_size / zoom + x_center, j * y_size / tile_size / zoom + y_center},
               show_entity_info = ent_info,
               anti_alias = anti_alias,
-              path = "image_" .. j + y_radius .. "_" .. i + x_radius .. ".png"
+              path = "image_" .. (j + y_radius) .. "_" .. (i + x_radius) .. ".png"
           }
       end
   end
