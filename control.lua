@@ -73,46 +73,6 @@ function is_near_other(entity)
   end
 end
 
-commands.add_command("hello", nil, function(command)
-  game.print("Hello, Nauvis!")
-end)
-
-commands.add_command("pos", nil, function(command)
-  local x = game.player.position.x
-  local y = game.player.position.y
-  x = math.floor(x)
-  y = math.floor(y)
-  game.print(x .. ", " .. y)
-end)
-
-commands.add_command("detect", nil, function(command)
-  game.print("Detecting edges of civilization...")
-  local y_max, y_min, x_max, x_min = detect_bounds()
-  
-  -- draw left edge -- at x min -- start from y min; go to y max
-  game.print("[ x_min: " .. x_min .. " | x_max: " .. x_max .. " | y_min: " .. y_min .. " | y_max: " .. y_max .. " ]")
-  for i = y_min, y_max, 1 do
-    game.player.surface.create_entity{name = "inserter", position = {x=x_min - 10, y=i}, direction = defines.direction.north}
-  end
-
-  -- draw right edge -- at x max -- start from y min; go to y max
-  for i = y_min, y_max, 1 do
-    game.player.surface.create_entity{name = "inserter", position = {x=x_max + 10, y=i}, direction = defines.direction.north}
-  end
-
-  -- draw top edge -- at y min -- start from x min; go to x max
-  for i = x_min, x_max, 1 do
-    game.player.surface.create_entity{name = "inserter", position = {x=i, y=y_min - 10}, direction = defines.direction.north}
-  end
-
-  -- draw bottom edge -- at y max -- start from x min; go to x max
-  for i = x_min, x_max, 1 do
-    game.player.surface.create_entity{name = "inserter", position = {x=i, y=y_max + 10}, direction = defines.direction.north}
-  end
-
-  game.print("Done.")
-end)
-
 commands.add_command("screenshot_grid", nil, function(command)
   game.print("Taking a grid of screenshots...")
   
