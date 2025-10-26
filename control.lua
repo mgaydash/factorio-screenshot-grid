@@ -135,16 +135,25 @@ commands.add_command("screenshot_grid", nil, function(command)
   game.player.surface.show_clouds = false
   game.player.surface.destroy_decoratives({})
 
-  -- Todo: Cleanup
-  for j=-y_radius, y_radius do
-      for i=-x_radius, x_radius do
+  -- Capture screenshots in a grid pattern
+  -- Loop indices range from -radius to +radius to center the grid on the factory
+  for row_offset = -y_radius, y_radius do
+      for col_offset = -x_radius, x_radius do
+          -- Calculate world position for this grid cell
+          local screenshot_x = col_offset * x_size / tile_size / zoom + x_center
+          local screenshot_y = row_offset * y_size / tile_size / zoom + y_center
+          
+          -- Convert loop indices to 0-based filename indices for stitching
+          local filename_row = row_offset + y_radius
+          local filename_col = col_offset + x_radius
+          
           game.take_screenshot {
               resolution = {x = x_size, y = y_size},
               zoom = zoom,
-              position = {i * x_size / tile_size / zoom + x_center, j * y_size / tile_size / zoom + y_center},
+              position = {screenshot_x, screenshot_y},
               show_entity_info = ent_info,
               anti_alias = anti_alias,
-              path = "image_" .. (j + y_radius) .. "_" .. (i + x_radius) .. ".png"
+              path = "image_" .. filename_row .. "_" .. filename_col .. ".png"
           }
       end
   end
