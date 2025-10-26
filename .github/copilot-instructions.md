@@ -6,9 +6,17 @@ A Factorio 2.0 mod that automatically captures grid-based screenshots of a facto
 
 ## Architecture
 
-- **control.lua**: Main mod logic with custom commands (`/screenshot_grid`, `/detect`, `/pos`, `/hello`)
+- **control.lua**: Main mod logic with a single command (`/screenshot_grid`)
 - **info.json**: Factorio mod manifest (version 2.0 compatible)
 - **stitch.py**: Post-processing tool to merge screenshot tiles into a single image
+
+## Configuration Constants
+
+The mod uses the following configurable constants defined at the top of `control.lua`:
+- `TILE_SIZE`: 32 (Factorio's tile size in pixels)
+- `SCREENSHOT_RESOLUTION`: 2000x2000 (size of each screenshot tile)
+- `SCREENSHOT_ZOOM`: 0.5 (zoom level for screenshots)
+- `NEIGHBOR_CHECK_RADIUS`: 2 (radius in tiles for detecting nearby entities)
 
 ## Key Patterns
 
@@ -17,17 +25,17 @@ The mod uses `surface.find_entities_filtered` to find production buildings, belt
 
 ### Screenshot Grid Logic
 - Calculates grid coverage based on detected bounds (`x_min`, `x_max`, `y_min`, `y_max`)
-- Uses tile size (32) and configurable resolution (2000x2000) to determine grid dimensions
-- Naming convention: `image_{y_index}_{x_index}.png` where indices start from 0
-
-### Commands Structure
-All commands follow pattern: `commands.add_command("name", nil, function(command) ... end)`
+- Uses configurable constants to determine grid dimensions
+- Calculates tiles per screenshot as: `SCREENSHOT_RESOLUTION / TILE_SIZE / SCREENSHOT_ZOOM`
+- Grid radius calculated as: `math.ceil(factory_dimension / tiles_per_screenshot / 2)`
+- Naming convention: `image_{row}_{col}.png` where indices are 0-based (loop offset + radius)
+- Surface cleanup: Disables clouds, sets daytime=0, destroys decoratives before capture
 
 ## Development Workflow
 
 ### Testing the Mod
 1. Mod auto-loads from: `<Factorio Data Dir>/mods/factorio-screenshot-grid`
-2. In-game: `/screenshot_grid` to capture, `/detect` to visualize bounds with inserters
+2. In-game: `/screenshot_grid` to capture screenshots of entire factory
 3. Screenshots save to Factorio's `script_output/` directory
 
 ### Post-Processing
@@ -41,9 +49,8 @@ vips dzsave full_map.jpg map  # Creates Deep Zoom Image tiles
 
 - Use `game.player.surface` for world interactions
 - Positions are {x, y} tables, not objects
-- `defines.direction.north` for entity orientation
 - Clean up surface decoratives and set daytime=0 before screenshots for consistency
-- Use `game.take_screenshot` with precise position calculations: `i * x_size / tile_size / zoom + x_center`
+- Use `game.take_screenshot` with precise position calculations: `offset * tiles_per_screenshot + center`
 
 ## Critical Implementation Details
 
