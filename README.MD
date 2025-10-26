@@ -6,8 +6,7 @@ A Factorio mod that automatically detects the bounds of a factory and takes a gr
 
 ## Installation
 
-- Clone this project into `<Factorio Data Dir>/mods/screenshot-grid`
-- Note that it is significant that the directory be named `screenshot-grid`
+- Clone this project into `<Factorio Data Dir>/mods/factorio-screenshot-grid`
 
 ## Stitch Tiles with Python
 
