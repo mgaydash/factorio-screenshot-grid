@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Update Version",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        ".vscode/update_version.py",
+        "${input:newVersion}"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "newVersion",
+      "type": "promptString",
+      "description": "Enter new version (e.g., 0.2.0)",
+      "default": "0.1.0"
+    }
+  ]
+}
