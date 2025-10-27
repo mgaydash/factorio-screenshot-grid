@@ -1,5 +1,5 @@
 #!/bin/bash
 
-pip install pillow
+pip install -e .
 sudo apt update
 sudo apt install -y libvips-tools

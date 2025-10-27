@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "factorio-screenshot-grid"
+version = "1.0.0"
+description = "Stitches Factorio screenshot tiles into a panoramic image"
+readme = "README.MD"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "mgaydash"},
+]
+dependencies = [
+    "pillow>=10.0.0",
+]
+
+[project.scripts]
+factorio-stitch = "stitch:main"
