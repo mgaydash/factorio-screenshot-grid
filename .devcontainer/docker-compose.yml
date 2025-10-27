@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
+    volumes:
+      # Mount the project directory
+      - ../..:/workspaces:cached
+      # Mount the script_output directory at the same level as mods
+      - ../../script_output:/workspaces/script_output:cached
+    command: sleep infinity
+    # Overrides default command so things don't shut down after the process ends.
